@@ -4,9 +4,19 @@ the Gaussian mechanism in machine learning
 
 ## TensorFlow Privacy
 This folder contains the source code for TensorFlow Privacy, which is a Python
-library developed by google for training machine learning models with differential privacy. 
-The detailed procedures for setting up TensorFlow Privacy can be referred to 
-https://github.com/tensorflow/privacy.
+library developed by google (`https://github.com/tensorflow/privacy`) for training machine learning models with differential privacy. 
+The detailed procedures for setting up TensorFlow Privacy in our repository are as follows.
+
+### Installing TensorFlow Privacy
+First, clone this GitHub repository into a directory of your choice:
+
+`git clone https://github.com/private-mechanism/p_exponential_mechanism`
+
+You can then install the local package in "editable" mode in order to add it to your `PYTHONPATH`:
+
+`cd P_Exponential_Mechanism`
+
+`pip install -e .`
 
 To achieve p-exponential mechanism based on TensorFlow Privacy, we have added one
 python file under `privacy/optimizers` and `privacy/dp_query` folders respectively. 
