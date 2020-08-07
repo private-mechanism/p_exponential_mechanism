@@ -1,0 +1,55 @@
+(*Copyright [2020] [authors of p-exponential mechanism]
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+    http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License*)
+
+(*""" 
+The privacy loss computed by the python code suffers from a relatively limited accuracy due to the lower computation accuracy of python. 
+Therefore, we also present the mathematica code of moments accountant method for the users who requires a higher accuracy of the computed 
+privacy loss \epsilon. 
+args:
+d: dimension of the noises(protected gradients of parameters), 
+T: number of iterations,
+K: size of the training data,
+δ: failure probability, the probability at which the privacy protection claimed is not achieved, 
+c: mini-batch size in sgd,
+Δ: clipping bound,
+var: noise variance,
+p0,p1,step: one cound search the optimal mechanism in PEM family(search the exponent p\in[p0, p1] corresponding to a PEM which would cause 
+the minimal epsilon when fixing the noise variance), step denotes the searching stepsize,
+q: q=c/K, the sampling ratio in sgd,
+b: pdf of a p-exponential distribution can be expressed as Pr(x)=(1/alpha)*exp[(-||x||^p)/b], where b reflects the variance.
+"""*)
+
+Clear["`*"]
+(**)
+d=10000; T=10000; K=60000; δ=10^-5; c=600; Δ=4; var=16^2;
+p0=1.5; p1=2; step=0.1;
+q=c/K;
+b=Table[((d  var Gamma[d/p])/Gamma[(d+2)/p])^(p/2),{p,p0,p1,step}];(*fix the noise variance for different p*)
+f[λ_,p_,r_,β_,q_]:=Mean[NIntegrate[1/Sqrt[Pi] (Sin[x]^(d-2) Gamma[d/2])/Gamma[(d-1)/2] ((1-q)(1-q+q Exp[(r^p-(r^2+Δ^2-2r  Δ Cos[x])^(p/2))/β])^λ+q (1-q+q Exp[((r^2+Δ^2+2r  Δ Cos[x])^(p/2)-r^p)/β])^λ),{x,0,Pi}]];
+Result={};
+ResVar={};
+code:=(PP=Table[p,{p,p0,p1,step}];Res={};
+For[i=1,i<=Length[b],i=i+1,
+p=PP[[i]];
+β=b[[i]];
+data=RandomVariate[GammaDistribution[d/p,β^(1/p),p,0],10^3];(*drawn from Gamma distribution*)
+(*epsilon=Table[(T Log[f[λ,p,data,β,q]]+Log[1/δ])/λ,{λ,1,32}];*)
+aa=Min[Table[(T Log[f[λ,p,data,β,q]]+Log[1/δ])/λ,{λ,1,32}]];
+Print["p=",p,"~~β=",b[[i]],"~~episl=",aa];
+Res=AppendTo[Res,aa];
+
+β=b[[i]];
+ResVar=AppendTo[ResVar,(β^(2/p) Gamma[(2+d)/p])/(d Gamma[d/p])]]);
+Do[{code,Result=AppendTo[Result,Res]},1]
+ListPlot[Table[{PP[[i]],Res[[i]]},{i,1,Length[b]}],Joined->True]
