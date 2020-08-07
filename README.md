@@ -18,7 +18,7 @@ You can then install the local package in "editable" mode in order to add it to 
 
 `pip install -e .`
 
-To achieve p-exponential mechanism based on TensorFlow Privacy, we have added one
+Comparing to the original version of TensorFlow Privacy, we have added one
 python file under `privacy/optimizers` and `privacy/dp_query` folders respectively. 
 
 In `dp_fixedvariance_query.py` under `privacy/dp_query` folder, we present how to 
