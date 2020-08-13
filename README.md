@@ -1,6 +1,6 @@
 # p_exponential_mechanism
-We propose a mechanism family (P-exponential mechanism family) of DP to improve the performance of 
-the Gaussian mechanism in machine learning
+We propose a mechanism family (p-power exponential mechanism family) of DP to improve the performance of 
+the Gaussian mechanism in machine learning.
 
 ## TensorFlow Privacy
 This folder contains the source code for TensorFlow Privacy, which is a Python
