@@ -34,7 +34,7 @@ The `tutorials/` folder contains the scripts presenting how to apply p-exponenti
 mechanism in the machine learning models. In particular, we apply p-exponential 
 mechanism into Logistic Regression(LR) on mnist dataset, and Conventional Neural Networks(CNN) on 
 both mnist and cifar10 datasets. Additionally, we also present the scripts for 
-computing the total privacy loss using moments accountant technique in p-expnential mechanism.
+computing the total privacy loss using moments accountant technique in p-exponential mechanism.
 
 ## Contacts
 
